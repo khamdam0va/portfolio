@@ -1,0 +1,48 @@
+body {
+    background-color: #080a0f;
+    font-family: 'Space Grotesk', sans-serif;
+    overflow-x: hidden;
+}
+
+.font-orbitron {
+    font-family: 'Orbitron', sans-serif;
+}
+
+.font-mono-custom {
+    font-family: 'JetBrains Mono', monospace;
+}
+
+/* Canvas Particle Background */
+#bg-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.neon-glow {
+    text-shadow: 0 0 15px rgba(0, 255, 102, 0.6);
+}
+
+.neon-border {
+    border: 1px solid rgba(0, 255, 102, 0.2);
+}
+
+.neon-border:hover {
+    border-color: rgba(0, 255, 102, 0.7);
+    box-shadow: 0 0 25px rgba(0, 255, 102, 0.25);
+}
+
+/* Profile Image Styling */
+.profile-img-wrapper {
+    position: relative;
+    background: #080a0f;
+}
+
+.profile-img {
+    mix-blend-mode: multiply;
+    filter: contrast(110%) brightness(95%);
+}
