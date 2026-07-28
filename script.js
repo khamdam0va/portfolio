@@ -1,4 +1,3 @@
-// Typewriter Animation Effect
 const words = ["> Network Architect", "> Flutter Mobile Engineer", "> Python Automation Dev", "> Tech Enthusiast"];
 let i = 0, timer;
 
@@ -38,7 +37,6 @@ function deletingEffect() {
 
 typingEffect();
 
-// Interactive Canvas Particles Background
 const canvas = document.getElementById('bg-canvas');
 const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
@@ -109,4 +107,42 @@ window.addEventListener('resize', () => {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     init();
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  fetch('https://api.github.com/users/khamdam0va/repos')
+    .then(response => response.json())
+    .then(repos => {
+      const container = document.getElementById('projects-container');
+      if (!container) return;
+      container.innerHTML = '';
+      
+      repos.forEach(repo => {
+        const description = repo.description ? repo.description : 'Enterprise darajasidagi tarmoq va dasturiy taʼminot loyihasi.';
+        
+        const card = `
+          <div class="bg-cyber-cardBg/80 backdrop-blur p-8 rounded-xl border border-cyber-border hover:border-cyber-green transition-all flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-start mb-4">
+                <span class="font-mono-custom text-xs text-cyber-green">[REPOSITORY]</span>
+                <a href="${repo.html_url}" target="_blank" class="text-slate-400 hover:text-cyber-green"><i class="fa-brands fa-github text-2xl"></i></a>
+              </div>
+              <h3 class="text-2xl font-bold font-orbitron text-white mb-3">${repo.name}</h3>
+              <p class="text-slate-400 text-sm leading-relaxed mb-6">${description}</p>
+            </div>
+            <div class="flex gap-2 font-mono-custom text-xs text-slate-300">
+              <span class="px-3 py-1 bg-black/50 rounded border border-cyber-border">${repo.language || 'Code'}</span>
+            </div>
+          </div>
+        `;
+        container.innerHTML += card;
+      });
+    })
+    .catch(error => {
+      console.error('GitHub API xatoligi:', error);
+      const container = document.getElementById('projects-container');
+      if (container) {
+        container.innerHTML = '<p class="text-red-500 font-mono-custom col-span-full">Loyihalarni yuklashda xatolik yuz berdi.</p>';
+      }
+    });
 });
