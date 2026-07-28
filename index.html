@@ -136,37 +136,17 @@
             </div>
         </div>
     </section>
+    
+    <!-- PROJECTS SECTION: GitHub API orqali avtomatik ishlaydi -->
     <section id="projects" class="relative z-10 py-20 px-6 max-w-7xl mx-auto border-t border-cyber-border">
         <div class="font-mono-custom text-cyber-green text-sm mb-2">// SELECTED REPOSITORIES</div>
         <h2 class="text-3xl font-black font-orbitron text-white mb-12 tracking-wide uppercase">Featured Work</h2>
-        <div class="grid md:grid-cols-2 gap-8">
-        <div id="projects-container" class="grid md:grid-cols-2 gap-8 col-span-full"></div>
-            <div class="bg-cyber-cardBg/80 backdrop-blur p-8 rounded-xl border border-cyber-border hover:border-cyber-green transition-all">
-                <div class="flex justify-between items-start mb-4">
-                    <span class="font-mono-custom text-xs text-cyber-green">[NETWORKING]</span>
-                    <a href="https://github.com/khamdam0va/cisco-network-topology" target="_blank" class="text-slate-400 hover:text-cyber-green"><i class="fa-brands fa-github text-2xl"></i></a>
-                </div>
-                <h3 class="text-2xl font-bold font-orbitron text-white mb-3">Cisco Enterprise Topology</h3>
-                <p class="text-slate-400 text-sm leading-relaxed mb-6">Designed and simulated a multi-building enterprise computer network featuring multi-area OSPF routing, VLAN segmentation, and access control lists (ACL).</p>
-                <div class="flex gap-2 font-mono-custom text-xs text-slate-300">
-                    <span class="px-3 py-1 bg-black/50 rounded border border-cyber-border">Packet Tracer</span>
-                    <span class="px-3 py-1 bg-black/50 rounded border border-cyber-border">Security</span>
-                </div>
-            </div>
-            <div class="bg-cyber-cardBg/80 backdrop-blur p-8 rounded-xl border border-cyber-border hover:border-cyber-green transition-all">
-                <div class="flex justify-between items-start mb-4">
-                    <span class="font-mono-custom text-xs text-cyber-green">[MOBILE APP]</span>
-                    <a href="https://github.com/khamdam0va/flutter_ui_mobile_app" target="_blank" class="text-slate-400 hover:text-cyber-green"><i class="fa-brands fa-github text-2xl"></i></a>
-                </div>
-                <h3 class="text-2xl font-bold font-orbitron text-white mb-3">Cross-Platform Flutter UI</h3>
-                <p class="text-slate-400 text-sm leading-relaxed mb-6">A modern mobile user interface architecture built with Flutter, focusing on state management, responsive UI components, and clean code structure.</p>
-                <div class="flex gap-2 font-mono-custom text-xs text-slate-300">
-                    <span class="px-3 py-1 bg-black/50 rounded border border-cyber-border">Flutter</span>
-                    <span class="px-3 py-1 bg-black/50 rounded border border-cyber-border">Dart</span>
-                </div>
-            </div>
+        <div id="projects-container" class="grid md:grid-cols-2 gap-8">
+            <!-- GitHub'dan ma'lumotlar kelguncha yuklanmoqda yozuvi -->
+            <p class="text-slate-400 font-mono-custom col-span-full">Loyihalar yuklanmoqda...</p>
         </div>
     </section>
+
     <section id="activity" class="relative z-10 py-20 px-6 max-w-7xl mx-auto border-t border-cyber-border">
         <div class="font-mono-custom text-cyber-green text-sm mb-2">// REAL-TIME METRICS</div>
         <h2 class="text-3xl font-black font-orbitron text-white mb-8 tracking-wide uppercase">GitHub Contribution Stream</h2>
@@ -187,6 +167,43 @@
     <footer class="relative z-10 py-8 border-t border-cyber-border text-center font-mono-custom text-xs text-slate-500">
         <p>© 2026 Xamdamova Sarafroz. All Rights Reserved.</p>
     </footer>
+
+    <!-- GitHub API orqali loyihalarni tortuvchi skript -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            fetch('https://api.github.com/users/khamdam0va/repos')
+                .then(response => response.json())
+                .then(repos => {
+                    const container = document.getElementById('projects-container');
+                    if (!container) return;
+                    container.innerHTML = '';
+                    
+                    // Faqat asosiy repository'larni chiqarish uchun (fork qilinganlarni tashlab yuborish mumkin)
+                    repos.forEach(repo => {
+                        const card = `
+                            <div class="bg-cyber-cardBg/80 backdrop-blur p-8 rounded-xl border border-cyber-border hover:border-cyber-green transition-all flex flex-col justify-between">
+                                <div>
+                                    <div class="flex justify-between items-start mb-4">
+                                        <span class="font-mono-custom text-xs text-cyber-green">[REPOSITORY]</span>
+                                        <a href="${repo.html_url}" target="_blank" class="text-slate-400 hover:text-cyber-green"><i class="fa-brands fa-github text-2xl"></i></a>
+                                    </div>
+                                    <h3 class="text-2xl font-bold font-orbitron text-white mb-3">${repo.name}</h3>
+                                    <p class="text-slate-400 text-sm leading-relaxed mb-6">${repo.description || 'Tavsif yozilmagan'}</p>
+                                </div>
+                                <div class="flex gap-2 font-mono-custom text-xs text-slate-300">
+                                    <span class="px-3 py-1 bg-black/50 rounded border border-cyber-border">${repo.language || 'Code'}</span>
+                                </div>
+                            </div>
+                        `;
+                        container.innerHTML += card;
+                    });
+                })
+                .catch(error => {
+                    console.error('GitHub API xatoligi:', error);
+                    document.getElementById('projects-container').innerHTML = '<p class="text-red-500 font-mono-custom col-span-full">Loyihalarni yuklashda xatolik yuz berdi.</p>';
+                });
+        });
+    </script>
     <script src="script.js"></script>
 </body>
 </html>
