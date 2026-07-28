@@ -117,7 +117,14 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!container) return;
       container.innerHTML = '';
       
-      repos.forEach(repo => {
+      const filteredRepos = repos.filter(repo => !repo.fork);
+      
+      if (filteredRepos.length === 0) {
+        container.innerHTML = '<p class="text-slate-400 font-mono-custom col-span-full">Hozircha ommaviy repositorylar mavjud emas.</p>';
+        return;
+      }
+
+      filteredRepos.forEach(repo => {
         const description = repo.description ? repo.description : 'Enterprise darajasidagi tarmoq va dasturiy taʼminot loyihasi.';
         
         const card = `
@@ -139,7 +146,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     })
     .catch(error => {
-      console.error('GitHub API xatoligi:', error);
+      console.error(error);
       const container = document.getElementById('projects-container');
       if (container) {
         container.innerHTML = '<p class="text-red-500 font-mono-custom col-span-full">Loyihalarni yuklashda xatolik yuz berdi.</p>';
